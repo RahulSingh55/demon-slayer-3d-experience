@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demon Slayer Experience</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;700&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #0a0a0a;
+            color: #fff;
+        }
+        
+        #main-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .header {
+            font-family: 'Bebas Neue', cursive;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .character-card {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+        
+        .character-card:hover {
+            transform: rotateY(15deg) translateY(-10px);
+        }
+        
+        .katanas {
+            position: absolute;
+            width: 200px;
+            height: 40px;
+            background: rgba(200, 200, 255, 0.1);
+            border-radius: 10px;
+            transform: rotate(45deg);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .blood-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(150, 0, 0, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .character-card:hover .blood-effect {
+            opacity: 0.5;
+        }
+        
+        .flame-particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff6600, transparent 70%);
+            filter: blur(5px);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(45deg); }
+            50% { transform: translateY(-20px) rotate(45deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 5px #ff6600; }
+            50% { text-shadow: 0 0 20px #ff3300, 0 0 30px #ff6600; }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .title-glow {
+            animation: titleGlow 3s infinite;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="main-canvas"></canvas>
+    
+    <!-- Animated particles floating in background -->
+    <div id="particles"></div>
+    
+    <div class="container mx-auto px-4">
+        <!-- Header Section with 3D effect -->
+        <header class="header py-12 text-center">
+            <h1 class="title-glow text-6xl md:text-8xl mb-4 text-red-500">DEMON SLAYER</h1>
+            <p class="text-xl md:text-2xl text-gray-300">Enter the world of demon hunters</p>
+            
+            <div class="mt-10 relative">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/da37c290-1508-4fbd-8d7f-4ec65d0bf54d.png" alt="Main Demon Slayer art showing Tanjiro Kamado in fighting stance with glowing red sword against dark background" 
+                     class="mx-auto rounded-lg border-4 border-red-700 pulse" />
+            </div>
+        </header>
+        
+        <!-- Main Content with 3D Cards -->
+        <main class="my-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Tanjiro Card -->
+            <div class="character-card rounded-lg overflow-hidden shadow-lg border border-red-900 transition-all hover:border-red-500">
+                <div class="blood-effect"></div>
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6ac5bc2f-0e23-4718-a3cd-a72eea966597.png" alt="Tanjiro Kamado with water breathing stance and glowing blue sword" 
+                     class="w-full h-64 md:h-80 object-cover" />
+                <div class="p-6 bg-gray-900">
+                    <h3 class="text-2xl font-bold text-red-500 mb-2">Tanjiro Kamado</h3>
+                    <p class="text-gray-300">Water Breathing user with extraordinary sense of smell</p>
+                </div>
+            </div>
+            
+            <!-- Nezuko Card -->
+            <div class="character-card rounded-lg overflow-hidden shadow-lg border border-pink-900 transition-all hover:border-pink-500">
+                <div class="blood-effect"></div>
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/187b2566-d768-4b6c-90e9-d97dae314c49.png" alt="Nezuko Kamado crouched with glowing pink eyes and muzzle" 
+                     class="w-full h-64 md:h-80 object-cover" />
+                <div class="p-6 bg-gray-900">
+                    <h3 class="text-2xl font-bold text-pink-500 mb-2">Nezuko Kamado</h3>
+                    <p class="text-gray-300">Demon sister with powerful strength and humanity</p>
+                </div>
+            </div>
+            
+            <!-- Zenitsu Card -->
+            <div class="character-card rounded-lg overflow-hidden shadow-lg border border-yellow-900 transition-all hover:border-yellow-500">
+                <div class="blood-effect"></div>
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8d1e8518-c138-4e4c-b4fd-8895c4a35f91.png" alt="Zenitsu Agatsuma in Thunder Breathing stance with yellow lightning effects" 
+                     class="w-full h-64 md:h-80 object-cover" />
+                <div class="p-6 bg-gray-900">
+                    <h3 class="text-2xl font-bold text-yellow-500 mb-2">Zenitsu Agatsuma</h3>
+                    <p class="text-gray-300">Thunder Breathing user with incredible speed</p>
+                </div>
+            </div>
+            
+            <!-- Inosuke Card -->
+            <div class="character-card rounded-lg overflow-hidden shadow-lg border border-blue-900 transition-all hover:border-blue-500">
+                <div class="blood-effect"></div>
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/16509d91-9411-4938-adc5-c53d3c9afaf8.png" alt="Inosuke Hashibira with boar mask and crossed swords in wild stance" 
+                     class="w-full h-64 md:h-80 object-cover" />
+                <div class="p-6 bg-gray-900">
+                    <h3 class="text-2xl font-bold text-blue-500 mb-2">Inosuke Hashibira</h3>
+                    <p class="text-gray-300">Wild Beast Breathing user with double blades</p>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Floating Katana Elements -->
+        <div class="katana katanas" style="top: 20%; left: 10%;"></div>
+        <div class="katana katanas" style="top: 70%; left: 5%; animation-delay: 1s;"></div>
+        <div class="katana katanas" style="top: 40%; right: 15%; animation-delay: 2s;"></div>
+        <div class="katana katanas" style="top: 80%; right: 10%; animation-delay: 3s;"></div>
+        
+        <!-- 3D Scene Info Section -->
+        <section class="my-24 p-8 bg-black bg-opacity-50 rounded-lg border border-gray-800">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-red-500">The Demon Slayer Corps</h2>
+            <p class="text-gray-300 mb-8 text-center max-w-3xl mx-auto">
+                The Demon Slayer Corps is a secret organization that has existed since ancient times, 
+                dedicated to protecting humanity from demons and exterminating the Demon King, Muzan Kibutsuji.
+            </p>
+            
+            <div class="flex flex-col md:flex-row gap-8 items-center">
+                <div class="flex-1">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0d6ffc17-1cd0-4b51-a384-3a234818b602.png" alt="Demon Slayer Corps members standing together with nichirin blades ready" 
+                         class="rounded-lg border border-red-700" />
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold text-red-500 mb-4">Hashira - The Pillars</h3>
+                    <p class="text-gray-300 mb-4">
+                        The Hashira are the nine most powerful and highest-ranking swordsmen in the Demon Slayer Corps.
+                    </p>
+                    <ul class="pl-5 text-gray-400">
+                        <li class="mb-2">- Water Hashira: Giyu Tomioka</li>
+                        <li class="mb-2">- Flame Hashira: Kyojuro Rengoku</li>
+                        <li class="mb-2">- Sound Hashira: Tengen Uzui</li>
+                        <li class="mb-2">- Insect Hashira: Shinobu Kocho</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer class="py-8 text-center text-gray-500 text-sm">
+        <p>© 2023 Demon Slayer Experience. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Initialize Three.js scene
+        let scene, camera, renderer, particles = [];
+        
+        function initThreeJS() {
+            // Create scene
+            scene = new THREE.Scene();
+            
+            // Set camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 30;
+            
+            // Create renderer
+            renderer = new THREE.WebGLRenderer({
+                canvas: document.getElementById('main-canvas'),
+                alpha: true,
+                antialias: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 1);
+            
+            // Add ambient light
+            const ambientLight = new THREE.AmbientLight(0x222222);
+            scene.add(ambientLight);
+            
+            // Add directional light
+            const directionalLight = new THREE.DirectionalLight(0xff3300, 0.5);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            // Create particles for background
+            const particleCount = 100;
+            for (let i = 0; i < particleCount; i++) {
+                const geometry = new THREE.SphereGeometry(0.1 + Math.random() * 0.3, 8, 8);
+                const material = new THREE.MeshBasicMaterial({ 
+                    color: new THREE.Color(`hsl(${Math.random() * 30 + 30}, 100%, 50%)`),
+                    transparent: true,
+                    opacity: 0.7
+                });
+                const particle = new THREE.Mesh(geometry, material);
+                
+                particle.position.x = Math.random() * 100 - 50;
+                particle.position.y = Math.random() * 100 - 50;
+                particle.position.z = Math.random() * 100 - 50;
+                
+                particle.userData = {
+                    velocity: new THREE.Vector3(
+                        (Math.random() - 0.5) * 0.02,
+                        (Math.random() - 0.5) * 0.02,
+                        (Math.random() - 0.5) * 0.02
+                    )
+                };
+                
+                scene.add(particle);
+                particles.push(particle);
+            }
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            
+            // Start animation loop
+            animate();
+        }
+        
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Move particles
+            particles.forEach(particle => {
+                particle.position.x += particle.userData.velocity.x;
+                particle.position.y += particle.userData.velocity.y;
+                particle.position.z += particle.userData.velocity.z;
+                
+                // Bounce particles if they go out of bounds
+                if (Math.abs(particle.position.x) > 30) {
+                    particle.userData.velocity.x *= -1;
+                    if (particle.position.x > 30) particle.position.x = 30;
+                    if (particle.position.x < -30) particle.position.x = -30;
+                }
+                if (Math.abs(particle.position.y) > 30) {
+                    particle.userData.velocity.y *= -1;
+                    if (particle.position.y > 30) particle.position.y = 30;
+                    if (particle.position.y < -30) particle.position.y = -30;
+                }
+                if (Math.abs(particle.position.z) > 30) {
+                    particle.userData.velocity.z *= -1;
+                    if (particle.position.z > 30) particle.position.z = 30;
+                    if (particle.position.z < -30) particle.position.z = -30;
+                }
+            });
+            
+            // Rotate scene slightly
+            scene.rotation.y += 0.001;
+            
+            renderer.render(scene, camera);
+        }
+        
+        // Create 2D flame particles
+        function createFlameParticles() {
+            const particlesContainer = document.getElementById('particles');
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'flame-particle';
+                
+                const size = Math.random() * 20 + 10;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100 + 100}%`;  // Start below viewport
+                particle.style.animation = `float ${Math.random() * 5 + 5}s linear infinite`;
+                particle.style.opacity = 0.5
