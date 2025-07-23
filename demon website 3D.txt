@@ -1,0 +1,24 @@
+# Demon Slayer 3D Experience
+
+A visually rich 3D fan project inspired by the anime *Demon Slayer*. Built using HTML, CSS (Tailwind), and Three.js for animated particles and 3D backgrounds.
+
+## Features
+
+- Dynamic 3D particle background with Three.js
+- Animated character cards (Tanjiro, Nezuko, Zenitsu, Inosuke)
+- Hover effects, blood animation, glowing text
+- Fully responsive design with Tailwind CSS
+
+## Technologies Used
+
+- HTML5
+- Tailwind CSS
+- Three.js (for 3D animations)
+
+## Live Demo
+
+[🔗 View Project](https://your-github-username.github.io/demon-slayer-3d-experience/)
+
+## License
+
+This is a fan project for educational and portfolio purposes only. All character rights belong to the original creators of Demon Slayer.
